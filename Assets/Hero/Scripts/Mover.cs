@@ -2,18 +2,16 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [SerializeField] private ChekerGround _chekGround;
     private Animations _animator;
 
     private float _speed = 100f;
-    private float _jumpForce = 200f;
+    private float _jumpForce = 100f;
     private float _rightRotation = 180f;
     private float _leftRotation = 0f;
 
-
     private bool _isGround = false;
     private bool _isMoving = false;
-    private bool _isJumping = false;
-
 
     private Rigidbody2D _rigidbody;
 
@@ -28,7 +26,6 @@ public class PlayerMovement : MonoBehaviour
         Move();
         Rotate();
         Jump();
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -43,6 +40,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
+        _isGround = _chekGround.GetCheckGround();
+
         if (Input.GetButton("Horizontal") && _isGround)
         {
             float directionX = Input.GetAxisRaw("Horizontal");
@@ -52,9 +51,16 @@ public class PlayerMovement : MonoBehaviour
 
             _rigidbody.velocity = new Vector2(directionX * _speed * Time.deltaTime, directionY);
         }
+        else if (Input.GetButton("Horizontal") && _isGround == false)
+        {
+            float directionX = Input.GetAxisRaw("Horizontal");
+
+            _isMoving = false;
+
+            _rigidbody.velocity = new Vector2(directionX * _speed * Time.deltaTime, _rigidbody.velocity.y);
+        }
         else
         {
-            Debug.Log("Bye");
             _isMoving = false;
         }
 
@@ -65,7 +71,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetButton("Jump") && _isGround)
         {
-            _rigidbody.AddForce(Vector2.up * _jumpForce * Time.deltaTime, ForceMode2D.Impulse);
+            _rigidbody.AddForce(Vector2.up * _jumpForce * Time.deltaTime, ForceMode2D.Impulse);   
         }
     }
 
@@ -91,4 +97,3 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 }
-
