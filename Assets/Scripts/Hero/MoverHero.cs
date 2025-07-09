@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class MoverHero : MonoBehaviour
 {
     [SerializeField] private ChekerGround _chekGround;
     private CharacterAnimator _animator;

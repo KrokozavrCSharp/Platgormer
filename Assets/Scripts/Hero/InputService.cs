@@ -21,7 +21,7 @@ public class InputService : MonoBehaviour
 
     public float GetMovement()
     {
-        return Input.GetAxisRaw("Horizontal");
+        return Input.GetAxisRaw(_Movement);
     }
 
     public bool IsJumpPressed()

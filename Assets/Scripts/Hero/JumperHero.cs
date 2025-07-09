@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Jumper : MonoBehaviour
+public class JumperHero : MonoBehaviour
 {
     [SerializeField]private ChekerGround _chekGround;
 
@@ -11,7 +11,7 @@ public class Jumper : MonoBehaviour
     private Rigidbody2D _rigidbody;
     private bool _isGround;
 
-    void Start()
+    private void Start()
     {
         _rigidbody=GetComponent<Rigidbody2D>();
         _inputService=GetComponent<InputService>();

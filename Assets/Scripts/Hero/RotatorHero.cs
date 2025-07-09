@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Rotater : MonoBehaviour
+public class RotatorHero : MonoBehaviour
 {
     private InputService _inputService;
     private float _rightRotation = 180f;

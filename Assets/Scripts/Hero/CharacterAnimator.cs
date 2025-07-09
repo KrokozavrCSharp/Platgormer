@@ -25,6 +25,6 @@ public class CharacterAnimator : MonoBehaviour
 
     public void PlayJump(bool isJump)
     {
-        _animation.SetBool("IsJump", isJump);
+        _animation.SetBool(IsJump, isJump);
     }
 }
