@@ -8,15 +8,15 @@ public class ChekerGround : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent<Ground>(out Ground ground)  || other.TryGetComponent<Platforma>(out Platforma platforma)) 
+        if (other.TryGetComponent(out Ground ground)  || other.TryGetComponent(out Platform platforma)) 
         {
-            _inEarthCount++;
+            ++_inEarthCount;
         }
     }
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.TryGetComponent<Ground>(out Ground ground) || other.TryGetComponent<Platforma>(out Platforma platforma)) 
+        if (other.TryGetComponent(out Ground ground) || other.TryGetComponent(out Platform platforma)) 
         {
             --_inEarthCount;
         }
@@ -28,6 +28,7 @@ public class ChekerGround : MonoBehaviour
             _isGround=true;
         else
             _isGround=false;
+
         return _isGround;
     }
 }

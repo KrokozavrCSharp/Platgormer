@@ -5,9 +5,6 @@ public class InputService : MonoBehaviour
     private const string _Movement = "Horizontal";
     private const string _Jump = "Jump";
 
-    private  float _directionY=0;
-    private float _directionX;
-
     private void Update()
     {
         IsWalkPressed();

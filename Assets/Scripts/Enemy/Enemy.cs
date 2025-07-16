@@ -6,7 +6,7 @@ public class Enemy : MonoBehaviour
 
     private MoverEnemy _mover;
     private PatrollerEnemy _patroler;
-    private RotatorEnemy _rotater;
+    private Rotator _rotator;
 
     private int _rightRotation = 0;
     private int _leftRotation = 180;
@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
     {
         _mover=GetComponent<MoverEnemy>();
         _patroler=GetComponent<PatrollerEnemy>();
-        _rotater=GetComponent<RotatorEnemy>();
+        _rotator=GetComponent<Rotator>();
 
         _pointRotationRight = _wayPoints[_firstPoint].position;
         _pointRotationLeft = _wayPoints[_secondPoint].position;
@@ -47,7 +47,7 @@ public class Enemy : MonoBehaviour
         if (Mathf.Approximately(transform.position.x,_pointRotationRight.x))
         {
             _indexPoints = _firstPoint;
-            _rotater.Rotate(_rightRotation);
+            _rotator.Rotate(_rightRotation);
             _indexPoints = _patroler.GetNextPosition(_indexPoints, _wayPoints.Length);
             _triggerPosition = _wayPoints[_indexPoints].position;
         }  
@@ -55,7 +55,7 @@ public class Enemy : MonoBehaviour
         if (Mathf.Approximately(transform.position.x,_pointRotationLeft.x))
         {
             _indexPoints = _secondPoint;
-            _rotater.Rotate(_leftRotation);
+            _rotator.Rotate(_leftRotation);
             _indexPoints = _patroler.GetNextPosition(_indexPoints, _wayPoints.Length);
             _triggerPosition = _wayPoints[_indexPoints].position;
         }
