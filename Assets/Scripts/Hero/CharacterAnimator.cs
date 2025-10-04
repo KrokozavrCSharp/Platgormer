@@ -5,6 +5,7 @@ public class CharacterAnimator : MonoBehaviour
     private readonly int IsRun = Animator.StringToHash(nameof(IsRun));
     private readonly int IsIdle = Animator.StringToHash(nameof(IsIdle));
     private readonly int IsJump = Animator.StringToHash(nameof(IsJump));
+    private readonly int IsAttack = Animator.StringToHash(nameof(IsAttack));
 
     private Animator _animation;
 
@@ -26,5 +27,10 @@ public class CharacterAnimator : MonoBehaviour
     public void PlayJump(bool isJump)
     {
         _animation.SetBool(IsJump, isJump);
+    }
+
+    public void PlayAttack(bool isAttack)
+    {
+        _animation.SetBool(IsAttack, isAttack);
     }
 }
