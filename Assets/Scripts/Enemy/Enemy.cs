@@ -1,6 +1,3 @@
-using System.Net;
-using Unity.Burst.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -13,9 +10,7 @@ public class Enemy : MonoBehaviour
     private Rotator _rotator;
     private TakerDamage _chakerDamage;
     private Rigidbody _rigidbody;
-
-    private RaycastHit2D _hit;
-    private Ray2D _view;
+    private RayCast _rayCast;
 
     private int _rightRotation = 0;
     private int _leftRotation = 180;
@@ -38,6 +33,7 @@ public class Enemy : MonoBehaviour
         _patroler = GetComponent<PatrollerEnemy>();
         _rotator = GetComponent<Rotator>();
         _chakerDamage = GetComponent<TakerDamage>();
+        _rayCast=GetComponentInChildren<RayCast>(); 
 
         _pointRotationRight = _wayPoints[_firstPoint].position;
         _pointRotationLeft = _wayPoints[_secondPoint].position;
@@ -52,15 +48,7 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        _view = new Ray2D(transform.position, Vector2.right);
-
-        Debug.DrawRay(_view.origin, _view.direction);
-
-         _hit= Physics2D.Raycast(_view.origin, _view.direction, 5f);
-
-        if (_hit.collider.TryGetComponent(out Hero player))
-            Debug.Log("bam");
-
+        _isSeening = _rayCast.See();
 
         if (_isSeening == false)
             Patrol();
@@ -103,19 +91,12 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    /*private bool Cheker()
-    {
-        if (Physics.Raycast(_view, out _hit))
-        {
-            Debug.Log(_hit.transform.name);
-        }
-
-        return _isSeening;
-    }*/
-
     private void Follow(Hero trigger)
     {
-        _rigidbody.velocity = Vector2.MoveTowards(transform.position,  trigger.transform.position,100f);
+        if (trigger != null)
+        {
+           _rigidbody.velocity = Vector2.MoveTowards(transform.position,  trigger.transform.position,100f);
+        } 
     }
 }
 
