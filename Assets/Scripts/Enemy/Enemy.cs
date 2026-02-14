@@ -4,36 +4,44 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private Transform[] _wayPoints;
     [SerializeField] private Hero _target;
+    [SerializeField] private AttackPoint _attackpoint;
 
     private MoverEnemy _mover;
     private PatrollerEnemy _patroler;
     private Rotator _rotator;
-    private TakerDamage _chakerDamage;
-    private Rigidbody _rigidbody;
+    private Rigidbody2D _rigidbody;
     private RayCast _rayCast;
+    private Follower _follower;
+    private CharacterAnimator _characterAnimator;
+    private ChekerHero _chekerHero;
+    private Health _healthBar;
 
     private int _rightRotation = 0;
     private int _leftRotation = 180;
     private int _indexPoints;
     private int _firstPoint = 0;
     private int _secondPoint = 1;
-
     private int _health = 100;
-
+    
     private Vector2 _triggerPosition;
-
     private Vector2 _pointRotationLeft;
     private Vector2 _pointRotationRight;
 
     private bool _isSeening = false;
+    private bool _isMoving = false;
+    public bool _isAttacked = false;
 
     private void Start()
     {
         _mover = GetComponent<MoverEnemy>();
         _patroler = GetComponent<PatrollerEnemy>();
         _rotator = GetComponent<Rotator>();
-        _chakerDamage = GetComponent<TakerDamage>();
-        _rayCast=GetComponentInChildren<RayCast>(); 
+        _healthBar = GetComponent<Health>();
+        _rigidbody =GetComponent<Rigidbody2D>();
+        _follower=GetComponent<Follower>();
+        _characterAnimator = GetComponent<CharacterAnimator>(); ;
+        _rayCast =GetComponentInChildren<RayCast>();
+        _chekerHero=GetComponentInChildren<ChekerHero>();
 
         _pointRotationRight = _wayPoints[_firstPoint].position;
         _pointRotationLeft = _wayPoints[_secondPoint].position;
@@ -43,27 +51,43 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        _mover.Move(_triggerPosition);
+       if(_isAttacked == false)
+            _mover.Move(_triggerPosition);
     }
 
     private void Update()
     {
         _isSeening = _rayCast.See();
 
-        if (_isSeening == false)
+        _isAttacked = _chekerHero.GetState();
+
+        if (_isSeening == false && _isAttacked == false) 
+        {
+            _isMoving = true;
             Patrol();
+        }
+        else if(_isSeening==true)
+        {
+            _isMoving = true;
+            _follower.Follow();
+        }
         else
-            Follow(_target);
+        {
+            _isMoving = false;
+        }
 
         if (_health <= 0)
         {
             Destroy(this.gameObject);
         }
+   
+        _characterAnimator.PlayWalked(_isMoving);
+        _characterAnimator.PlayAttack(_isAttacked);
     }
 
     public void TakeDamage(int damage)
     {
-        _health=_chakerDamage.TakeDamage(_health,damage);
+        _health= _healthBar.TakeDamage(_health,damage);
     }
 
     private void Patrol()
@@ -90,14 +114,4 @@ public class Enemy : MonoBehaviour
             _triggerPosition = _wayPoints[_indexPoints].position;
         }
     }
-
-    private void Follow(Hero trigger)
-    {
-        if (trigger != null)
-        {
-           _rigidbody.velocity = Vector2.MoveTowards(transform.position,  trigger.transform.position,100f);
-        } 
-    }
 }
-
-

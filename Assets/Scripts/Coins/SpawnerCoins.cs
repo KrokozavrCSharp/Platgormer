@@ -6,7 +6,6 @@ public class SpawnerCoins : MonoBehaviour
     [SerializeField] private Coin _prefab;
     [SerializeField] private Transform[] _spawnPoints;
 
-
     private int _maxCountCoins = 2;
 
     private void Start()

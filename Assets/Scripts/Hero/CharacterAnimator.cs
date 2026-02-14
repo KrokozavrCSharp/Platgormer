@@ -6,6 +6,8 @@ public class CharacterAnimator : MonoBehaviour
     private readonly int IsIdle = Animator.StringToHash(nameof(IsIdle));
     private readonly int IsJump = Animator.StringToHash(nameof(IsJump));
     private readonly int IsAttack = Animator.StringToHash(nameof(IsAttack));
+    private readonly int IsAttacked = Animator.StringToHash(nameof(IsAttacked));
+    private readonly int IsWalked = Animator.StringToHash(nameof(IsWalked));
 
     private Animator _animation;
 
@@ -33,4 +35,11 @@ public class CharacterAnimator : MonoBehaviour
     {
         _animation.SetBool(IsAttack, isAttack);
     }
+
+    public void PlayWalked(bool isWalked)
+    {
+        _animation.SetBool(IsWalked, isWalked);
+    }
+    
+
 }

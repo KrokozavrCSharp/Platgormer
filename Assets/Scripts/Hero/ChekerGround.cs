@@ -5,6 +5,7 @@ public class ChekerGround : MonoBehaviour
     private bool _isGround;
 
     private int _inEarthCount = 0;
+    private int _zeroEarthCount = 0;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -24,7 +25,7 @@ public class ChekerGround : MonoBehaviour
 
     public bool GetCheckGround()
     {
-        if(_inEarthCount>0)
+        if(_inEarthCount > _zeroEarthCount)
             _isGround=true;
         else
             _isGround=false;

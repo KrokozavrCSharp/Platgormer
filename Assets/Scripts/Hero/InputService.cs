@@ -4,7 +4,6 @@ public class InputService : MonoBehaviour
 {
     private const string _Movement = "Horizontal";
     private const string _Jump = "Jump";
-    private const string _Attack = "Fire2";
 
     private void Update()
     {
