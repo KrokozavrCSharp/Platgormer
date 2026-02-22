@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Hero : MonoBehaviour
+public class Hero : MonoBehaviour, IDamageable
 {
     [SerializeField] private ChekerGround _chekerGround;
     [SerializeField] private AttackPoint _attackpoint;
@@ -10,9 +10,8 @@ public class Hero : MonoBehaviour
     private Rotator _rotate;
     private InputService _inputService;
     private CharacterAnimator _characterAnimator;
-    private Attacker _attack;
     private Health _healthbar;
-    private Rigidbody2D _rigidbody;
+    private Collector _collector;
 
     private float _directionX;
     private float _directionY = 0;
@@ -25,36 +24,34 @@ public class Hero : MonoBehaviour
     private bool _isAttacked = false;
 
     private int _damage = 20;
-    private int _health = 100;
     private int _zeroValue = 0;
 
-    private void Start()
+    private void Awake()
     {
         _move = GetComponent<MoverHero>();
         _jump = GetComponent<JumperHero>();
         _rotate = GetComponent<Rotator>();
         _inputService = GetComponent<InputService>();
         _characterAnimator = GetComponent<CharacterAnimator>();
-        _rigidbody = GetComponent<Rigidbody2D>();
-        _attack= GetComponent<Attacker>();
         _healthbar = GetComponent<Health>();
+        _collector= GetComponent<Collector>();
     }
 
     private void FixedUpdate()
     {
         if (_inputService.IsWalkPressed() && _isGround)
         {
-            _move.Move(_rigidbody, _directionX, _directionY);
+            _move.Move(_directionX, _directionY);
             _isMoving = true;
         }
         else if (_inputService.IsWalkPressed() && _isGround == false)
         {
-            _move.Move(_rigidbody, _directionX, _directionY);
+            _move.Move(_directionX, _directionY);
             _isMoving = false;
         }
         else if (_inputService.IsJumpPressed() && _isGround)
         {
-            _jump.Jump(_rigidbody);
+            _jump.Jump();
         }
         else
         {
@@ -78,31 +75,38 @@ public class Hero : MonoBehaviour
         if (_inputService.IsAttacked())
         {
             _isAttacked = true;
-            _attack.Attack(_attackpoint.transform.position, _attackRadius, _damage);
+            Attack();
         }
         else
             _isAttacked = false;
-
-        if (_health <= _zeroValue)
-        {
-            Destroy(this.gameObject);
-        }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnEnable()
     {
-        if (other.TryGetComponent(out Coin coin))
-            Destroy(coin.gameObject);
+        _collector.TakeAid += _healthbar.Regeneration;
+    }
 
-        if (other.TryGetComponent(out Aid aid))
+    private void OnDisable()
+    {
+        _collector.TakeAid -= _healthbar.Regeneration;
+    }
+
+    public void Attack()
+    {
+        Collider2D[] enemyTarget = Physics2D.OverlapCircleAll(_attackpoint.transform.position, _attackRadius);
+
+        foreach (Collider2D enemy in enemyTarget)
         {
-            _health += aid.GetAid();
-            Destroy(aid.gameObject);
+            if (enemy.TryGetComponent(out Enemy target))
+            {
+                target.TakeDamage(_damage);
+                Debug.Log("Hit");
+            }
         }
     }
 
     public void TakeDamage(int damage) 
     {
-        _healthbar.TakeDamage(_health, damage);
+        _healthbar.TakeDamage(damage);
     }
 }

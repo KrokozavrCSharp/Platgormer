@@ -2,12 +2,11 @@ using UnityEngine;
 
 public class CharacterAnimator : MonoBehaviour
 {    
-    private readonly int IsRun = Animator.StringToHash(nameof(IsRun));
-    private readonly int IsIdle = Animator.StringToHash(nameof(IsIdle));
-    private readonly int IsJump = Animator.StringToHash(nameof(IsJump));
-    private readonly int IsAttack = Animator.StringToHash(nameof(IsAttack));
-    private readonly int IsAttacked = Animator.StringToHash(nameof(IsAttacked));
-    private readonly int IsWalked = Animator.StringToHash(nameof(IsWalked));
+    private readonly int _isRun = Animator.StringToHash("IsRun");
+    private readonly int _isIdle = Animator.StringToHash("IsIdle");
+    private readonly int _isJump = Animator.StringToHash("IsJump");
+    private readonly int _isAttack = Animator.StringToHash("IsAttack");
+    private readonly int _isWalked = Animator.StringToHash("IsWalked");
 
     private Animator _animation;
 
@@ -18,27 +17,27 @@ public class CharacterAnimator : MonoBehaviour
 
     public void PlayRun(bool isRun)
     {
-        _animation.SetBool(IsRun, isRun);
+        _animation.SetBool(_isRun, isRun);
     }
 
     public void PlayIdle(bool isIdle)
     {
-        _animation.SetBool(IsIdle, isIdle);
+        _animation.SetBool(_isIdle, isIdle);
     }
 
     public void PlayJump(bool isJump)
     {
-        _animation.SetBool(IsJump, isJump);
+        _animation.SetBool(_isJump, isJump);
     }
 
     public void PlayAttack(bool isAttack)
     {
-        _animation.SetBool(IsAttack, isAttack);
+        _animation.SetBool(_isAttack, isAttack);
     }
 
     public void PlayWalked(bool isWalked)
     {
-        _animation.SetBool(IsWalked, isWalked);
+        _animation.SetBool(_isWalked, isWalked);
     }
     
 

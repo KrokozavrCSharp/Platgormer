@@ -2,29 +2,22 @@ using UnityEngine;
 
 public class InputService : MonoBehaviour
 {
-    private const string _Movement = "Horizontal";
-    private const string _Jump = "Jump";
-
-    private void Update()
-    {
-        IsWalkPressed();
-        IsJumpPressed();
-        IsAttacked();
-    }
+    private const string Movement = "Horizontal";
+    private const string Jump = "Jump";
 
     public bool IsWalkPressed()
     {
-        return Input.GetButton(_Movement);
+        return Input.GetButton(Movement);
     }
 
     public float GetMovement()
     {
-        return Input.GetAxisRaw(_Movement);
+        return Input.GetAxisRaw(Movement);
     }
 
     public bool IsJumpPressed()
     {
-        return Input.GetButton(_Jump);
+        return Input.GetButton(Jump);
     }
 
     public bool IsAttacked()

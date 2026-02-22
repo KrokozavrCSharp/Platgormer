@@ -1,9 +1,8 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamageable
 {
     [SerializeField] private Transform[] _wayPoints;
-    [SerializeField] private Hero _target;
     [SerializeField] private AttackPoint _attackpoint;
 
     private MoverEnemy _mover;
@@ -21,28 +20,33 @@ public class Enemy : MonoBehaviour
     private int _indexPoints;
     private int _firstPoint = 0;
     private int _secondPoint = 1;
-    private int _health = 100;
-    
+    private int _damage = 20;
+
+    private float _attackRadius = 0.8f;
+
     private Vector2 _triggerPosition;
     private Vector2 _pointRotationLeft;
     private Vector2 _pointRotationRight;
 
     private bool _isSeening = false;
     private bool _isMoving = false;
-    public bool _isAttacked = false;
+    private bool _isAttacked = false;
 
-    private void Start()
+    private void Awake()
     {
         _mover = GetComponent<MoverEnemy>();
         _patroler = GetComponent<PatrollerEnemy>();
         _rotator = GetComponent<Rotator>();
         _healthBar = GetComponent<Health>();
-        _rigidbody =GetComponent<Rigidbody2D>();
-        _follower=GetComponent<Follower>();
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _follower = GetComponent<Follower>();
         _characterAnimator = GetComponent<CharacterAnimator>(); ;
-        _rayCast =GetComponentInChildren<RayCast>();
-        _chekerHero=GetComponentInChildren<ChekerHero>();
+        _rayCast = GetComponentInChildren<RayCast>();
+        _chekerHero = GetComponentInChildren<ChekerHero>();
+    }
 
+    private void Start()
+    {
         _pointRotationRight = _wayPoints[_firstPoint].position;
         _pointRotationLeft = _wayPoints[_secondPoint].position;
 
@@ -75,11 +79,6 @@ public class Enemy : MonoBehaviour
         {
             _isMoving = false;
         }
-
-        if (_health <= 0)
-        {
-            Destroy(this.gameObject);
-        }
    
         _characterAnimator.PlayWalked(_isMoving);
         _characterAnimator.PlayAttack(_isAttacked);
@@ -87,7 +86,26 @@ public class Enemy : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        _health= _healthBar.TakeDamage(_health,damage);
+        _healthBar.TakeDamage(damage);
+    }
+
+    public void Attack() 
+    {
+        Collider2D[] enemyTarget = Physics2D.OverlapCircleAll(_attackpoint.transform.position, _attackRadius);
+
+        foreach (Collider2D enemy in enemyTarget)
+        {
+            if (enemy.TryGetComponent(out Hero target))
+            {
+                target.TakeDamage(_damage);
+                Debug.Log("Hit");
+            }
+        }
+    }
+
+    public bool GetState()
+    {
+        return _isMoving;
     }
 
     private void Patrol()
