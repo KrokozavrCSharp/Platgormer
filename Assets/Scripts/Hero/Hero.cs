@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Hero : MonoBehaviour, IDamageable
+public class Hero : MonoBehaviour, IAttacker, IDamageable
 {
     [SerializeField] private ChekerGround _chekerGround;
     [SerializeField] private AttackPoint _attackpoint;
@@ -39,17 +39,17 @@ public class Hero : MonoBehaviour, IDamageable
 
     private void FixedUpdate()
     {
-        if (_inputService.IsWalkPressed() && _isGround)
+        if (_inputService.IsWalkPressed && _isGround)
         {
             _move.Move(_directionX, _directionY);
             _isMoving = true;
         }
-        else if (_inputService.IsWalkPressed() && _isGround == false)
+        else if (_inputService.IsWalkPressed && _isGround == false)
         {
             _move.Move(_directionX, _directionY);
             _isMoving = false;
         }
-        else if (_inputService.IsJumpPressed() && _isGround)
+        else if (_inputService.IsJumpPressed && _isGround)
         {
             _jump.Jump();
         }

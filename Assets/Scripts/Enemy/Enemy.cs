@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : MonoBehaviour, IAttacker,IDamageable
 {
     [SerializeField] private Transform[] _wayPoints;
     [SerializeField] private AttackPoint _attackpoint;
