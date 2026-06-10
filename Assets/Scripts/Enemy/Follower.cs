@@ -4,10 +4,15 @@ public class Follower : MonoBehaviour
 {
     [SerializeField] private Transform _positionHero;
 
-    private float speed = 2;
+    public Vector2 _position;
 
-    public void Follow()
+    public void SetTrigger(Vector2 position)
     {
-        transform.position = Vector2.MoveTowards(transform.position, new Vector2(_positionHero.position.x,transform.position.y), Time.deltaTime * speed);
+        _position = position;
+    }
+
+    public Vector2 GetTrigger()
+    {
+        return new Vector2(_position.x, transform.position.y);
     }
 }

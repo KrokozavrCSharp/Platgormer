@@ -1,6 +1,8 @@
 using UnityEngine;
 
-public class JumperHero : MonoBehaviour
+[RequireComponent (typeof(Rigidbody2D))]
+
+public class JumpHero : MonoBehaviour
 {
     private Rigidbody2D _rigidbody;
 

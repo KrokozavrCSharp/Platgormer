@@ -6,7 +6,7 @@ public class AttackerEnemy : MonoBehaviour
 
     private float _attackRadius = 0.8f;
 
-    private int _damage = 20;
+    private float _damage = 20;
 
     public void Attack()
     {

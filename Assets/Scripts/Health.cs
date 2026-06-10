@@ -1,27 +1,32 @@
+using System;
 using UnityEngine;
 
 public class Health : MonoBehaviour
 {
-    private int _health = 100;
-    private int _maxHealth = 100;
-    private int _zeroValue = 0;
+    public event Action <GameObject> HealthChanged;
 
-    public void TakeDamage(int damage)
+    private float _health = 100;
+    private float _maxHealth = 100;
+    private float _zeroValue = 0;
+
+    public void TakeDamage(float damage)
     {
         if (damage>0)
             _health -= damage;
 
-        if ( _health < 0 )
-            Destroy(gameObject);
+        if ( _health == 0 )
+            HealthChanged?.Invoke(gameObject);
     }
 
-    public void Regeneration( int treatment)
+    public void Regeneration(Aid aid)
     {
-        if(treatment > _zeroValue && _health < _maxHealth)
+        float treatment = aid.GetAid();
+
+        if (treatment > _zeroValue && _health < _maxHealth)
         {
             _health += treatment;
-            if(_health> _maxHealth)
-                _health = _maxHealth;
+
+            _health = Mathf.Clamp(_health, _zeroValue, _maxHealth);
         }
     }
 }

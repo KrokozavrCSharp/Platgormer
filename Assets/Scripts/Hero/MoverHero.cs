@@ -1,5 +1,7 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+
 public class MoverHero : MonoBehaviour
 {
     private Rigidbody2D _rigidbody;

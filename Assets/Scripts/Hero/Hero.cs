@@ -1,22 +1,26 @@
 using UnityEngine;
 
+[RequireComponent (typeof (MoverHero),typeof (JumpHero), typeof (Rotator))]
+[RequireComponent (typeof (InputService),typeof (CharacterAnimator), typeof (Health))]
+[RequireComponent (typeof (Collector),typeof (PlayerDeathHandler), typeof(Wallet))]
+
 public class Hero : MonoBehaviour, IAttacker, IDamageable
 {
     [SerializeField] private ChekerGround _chekerGround;
     [SerializeField] private AttackPoint _attackpoint;
 
     private MoverHero _move;
-    private JumperHero _jump;
+    private JumpHero _jump;
     private Rotator _rotate;
     private InputService _inputService;
     private CharacterAnimator _characterAnimator;
     private Health _healthbar;
     private Collector _collector;
+    private PlayerDeathHandler _playerDeathHandler;
+    private Wallet _wallet;
 
     private float _directionX;
     private float _directionY = 0;
-    private float _rightRotation = 180f;
-    private float _leftRotation = 0f;
     private float _attackRadius = 0.8f;
 
     private bool _isGround = false;
@@ -29,12 +33,14 @@ public class Hero : MonoBehaviour, IAttacker, IDamageable
     private void Awake()
     {
         _move = GetComponent<MoverHero>();
-        _jump = GetComponent<JumperHero>();
+        _jump = GetComponent<JumpHero>();
         _rotate = GetComponent<Rotator>();
         _inputService = GetComponent<InputService>();
         _characterAnimator = GetComponent<CharacterAnimator>();
         _healthbar = GetComponent<Health>();
-        _collector= GetComponent<Collector>();
+        _collector = GetComponent<Collector>();
+        _playerDeathHandler=GetComponent<PlayerDeathHandler>();
+        _wallet= GetComponent<Wallet>();
     }
 
     private void FixedUpdate()
@@ -66,11 +72,10 @@ public class Hero : MonoBehaviour, IAttacker, IDamageable
         _directionX = _inputService.GetMovement();
         _characterAnimator.PlayAttack(_isAttacked);
 
-        if (_inputService.GetMovement() > _zeroValue)
-            _rotate.Rotate(_leftRotation);
-
-        if (_inputService.GetMovement() < _zeroValue)
-            _rotate.Rotate(_rightRotation);
+        if (_inputService.GetMovement() != 0)
+        {
+         _rotate.Flip(_inputService.GetMovement());
+        }
 
         if (_inputService.IsAttacked())
         {
@@ -84,11 +89,15 @@ public class Hero : MonoBehaviour, IAttacker, IDamageable
     private void OnEnable()
     {
         _collector.TakeAid += _healthbar.Regeneration;
+        _healthbar.HealthChanged += _playerDeathHandler.Death;
+        _collector.TakeCoin += _wallet.MoneyIncrease;
     }
 
     private void OnDisable()
     {
         _collector.TakeAid -= _healthbar.Regeneration;
+        _healthbar.HealthChanged -= _playerDeathHandler.Death;
+        _collector.TakeCoin -= _wallet.MoneyIncrease;
     }
 
     public void Attack()
@@ -105,7 +114,7 @@ public class Hero : MonoBehaviour, IAttacker, IDamageable
         }
     }
 
-    public void TakeDamage(int damage) 
+    public void TakeDamage(float damage) 
     {
         _healthbar.TakeDamage(damage);
     }

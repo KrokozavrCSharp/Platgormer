@@ -9,6 +9,8 @@ public class InputService : MonoBehaviour
     private bool _isJumpPressed;
     private bool _isAttackPressed;
 
+    private KeyCode _key = KeyCode.E;
+
     public bool IsWalkPressed => _isWalkPressed;
     public bool IsJumpPressed => _isJumpPressed;
     public bool IsAttackPressed => _isAttackPressed;
@@ -37,6 +39,6 @@ public class InputService : MonoBehaviour
 
     public bool IsAttacked()
     {
-        return Input.GetKeyDown(KeyCode.E);
+        return Input.GetKeyDown(_key);
     }
 }
