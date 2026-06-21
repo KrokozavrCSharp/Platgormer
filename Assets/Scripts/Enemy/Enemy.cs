@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(MoverEnemy), typeof(PatrollerEnemy), typeof(Rotator))]
 [RequireComponent(typeof(Rigidbody2D), typeof(Follower))]
-[RequireComponent(typeof(CharacterAnimator), typeof(ChekerHero), typeof (Health))]
+[RequireComponent(typeof(CharacterAnimator),typeof (Health))]
 [RequireComponent(typeof(PlayerDeathHandler))]
 
 public class Enemy : MonoBehaviour, IAttacker,IDamageable
@@ -21,18 +21,11 @@ public class Enemy : MonoBehaviour, IAttacker,IDamageable
     private Health _healthBar;
     private PlayerDeathHandler _playerDeathHandler;
 
-    private int _rightRotation = 0;
-    private int _leftRotation = 180;
-    private int _indexPoints;
-    private int _firstPoint = 0;
-    private int _secondPoint = 1;
     private int _damage = 20;
 
     private float _attackRadius = 0.8f;
 
     private Vector2 _triggerPosition;
-    private Vector2 _pointRotationLeft;
-    private Vector2 _pointRotationRight;
 
     private bool _isSeening = false;
     private bool _isMoving = false;
@@ -56,11 +49,15 @@ public class Enemy : MonoBehaviour, IAttacker,IDamageable
     private void FixedUpdate()
     {
        if(_isAttacked == false)
+        {
             _mover.Move(_triggerPosition);
+        }
     }
 
     private void Update()
     {
+        _chekerHero.CheckHero();
+
         _isSeening = _rayCast.Search();
 
         _isAttacked = _chekerHero.GetState();
@@ -76,7 +73,6 @@ public class Enemy : MonoBehaviour, IAttacker,IDamageable
             _isMoving = true;
             _triggerPosition = _follower.GetTrigger();
             _mover.Move(_triggerPosition);
-            
         }
         else
         {

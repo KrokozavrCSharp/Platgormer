@@ -29,7 +29,7 @@ public class PatrollerEnemy : MonoBehaviour
         if (Mathf.Approximately(transform.position.x, _pointRotationRight.x))
         {
             _indexPoints = _firstPoint;
-            _rotator.Rotate(_pointRotationLeft);//Rotate?.Invoke(_pointRotationLeft);
+            Rotate?.Invoke(_pointRotationLeft);
             _indexPoints = GetNextPosition(_indexPoints, _wayPoints.Length);
             _triggerPosition = _wayPoints[_indexPoints].position;
         }
@@ -37,8 +37,7 @@ public class PatrollerEnemy : MonoBehaviour
         if (Mathf.Approximately(transform.position.x, _pointRotationLeft.x))
         {
             _indexPoints = _secondPoint;
-            _rotator.Rotate(_pointRotationRight);
-            //Rotate?.Invoke(_pointRotationRight);
+            Rotate?.Invoke(_pointRotationRight);
             _indexPoints = GetNextPosition(_indexPoints, _wayPoints.Length);
             _triggerPosition = _wayPoints[_indexPoints].position;
         }

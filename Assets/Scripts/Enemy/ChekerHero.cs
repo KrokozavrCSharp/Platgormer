@@ -2,19 +2,21 @@ using UnityEngine;
 
 public class ChekerHero : MonoBehaviour
 {
+   [SerializeField] private LayerMask _layersMask;
+
     private bool _canAttack;
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private float _checkRadius = 0.3f;
+
+    public void CheckHero()
     {
-        if (collision.TryGetComponent(out Hero hero))
+        Collider2D[] heroTarget = Physics2D.OverlapCircleAll(transform.position, _checkRadius, _layersMask);
+
+        if (heroTarget.Length > 0)
         {
             _canAttack = true;
         }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision) 
-    {
-        if (collision.TryGetComponent(out Hero hero))
+        else
         {
             _canAttack = false;
         }

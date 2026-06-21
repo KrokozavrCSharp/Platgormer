@@ -14,7 +14,7 @@ public class Hero : MonoBehaviour, IAttacker, IDamageable
     private Rotator _rotate;
     private InputService _inputService;
     private CharacterAnimator _characterAnimator;
-    private Health _healthbar;
+    private Health _health;
     private Collector _collector;
     private PlayerDeathHandler _playerDeathHandler;
     private Wallet _wallet;
@@ -28,7 +28,6 @@ public class Hero : MonoBehaviour, IAttacker, IDamageable
     private bool _isAttacked = false;
 
     private int _damage = 20;
-    private int _zeroValue = 0;
 
     private void Awake()
     {
@@ -37,7 +36,7 @@ public class Hero : MonoBehaviour, IAttacker, IDamageable
         _rotate = GetComponent<Rotator>();
         _inputService = GetComponent<InputService>();
         _characterAnimator = GetComponent<CharacterAnimator>();
-        _healthbar = GetComponent<Health>();
+        _health = GetComponent<Health>();
         _collector = GetComponent<Collector>();
         _playerDeathHandler=GetComponent<PlayerDeathHandler>();
         _wallet= GetComponent<Wallet>();
@@ -45,6 +44,7 @@ public class Hero : MonoBehaviour, IAttacker, IDamageable
 
     private void FixedUpdate()
     {
+
         if (_inputService.IsWalkPressed && _isGround)
         {
             _move.Move(_directionX, _directionY);
@@ -67,6 +67,8 @@ public class Hero : MonoBehaviour, IAttacker, IDamageable
 
     private void Update()
     {
+        _chekerGround.CheckGround();
+
         _isGround = _chekerGround.GetCheckGround();
         _characterAnimator.PlayRun(_isMoving);
         _directionX = _inputService.GetMovement();
@@ -88,15 +90,15 @@ public class Hero : MonoBehaviour, IAttacker, IDamageable
 
     private void OnEnable()
     {
-        _collector.TakeAid += _healthbar.Regeneration;
-        _healthbar.HealthChanged += _playerDeathHandler.Death;
+        _collector.TakeAid += _health.Regeneration;
+        _health.HealthChanged += _playerDeathHandler.Death;
         _collector.TakeCoin += _wallet.MoneyIncrease;
     }
 
     private void OnDisable()
     {
-        _collector.TakeAid -= _healthbar.Regeneration;
-        _healthbar.HealthChanged -= _playerDeathHandler.Death;
+        _collector.TakeAid -= _health.Regeneration;
+        _health.HealthChanged -= _playerDeathHandler.Death;
         _collector.TakeCoin -= _wallet.MoneyIncrease;
     }
 
@@ -116,6 +118,6 @@ public class Hero : MonoBehaviour, IAttacker, IDamageable
 
     public void TakeDamage(float damage) 
     {
-        _healthbar.TakeDamage(damage);
+        _health.TakeDamage(damage);
     }
 }

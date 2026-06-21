@@ -8,9 +8,9 @@ public class EnemyVision : MonoBehaviour
 
     public Action<Vector2> SeeHero; 
 
-    public bool _isSeeing;
-    public bool _canAttack;
-    public float _distance = 15f;
+    private bool _isSeeing;
+    private bool _canAttack;
+    private float _distance = 15f;
 
     public bool Search()
     {

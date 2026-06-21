@@ -234,7 +234,7 @@ Transform:
   m_GameObject: {fileID: 33880389}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.152, y: -0.038, z: 0}
+  m_LocalPosition: {x: 0.11799999, y: 0.04299994, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -287,6 +287,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acc7abfc09d1b534086c235060bf421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _layersMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!114 &33880393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,9 +461,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a86a75aaae291c648b6dfe8e79f978e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isSeeing: 0
-  _canAttack: 0
-  _distance: 5
 --- !u!1 &274449339
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,7 +472,7 @@ GameObject:
   - component: {fileID: 274449340}
   - component: {fileID: 274449341}
   - component: {fileID: 274449342}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ChekerGround
   m_TagString: Untagged
   m_Icon: {fileID: -5397416234189338067, guid: 0000000000000000d000000000000000, type: 0}
@@ -541,6 +541,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaf0eecc47cf3714fbaa260c3ad35eb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &282621228
 GameObject:
   m_ObjectHideFlags: 0
@@ -585,7 +588,7 @@ GameObject:
   - component: {fileID: 321569189}
   - component: {fileID: 321569185}
   - component: {fileID: 321569188}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: left-slope
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -906,7 +909,7 @@ GameObject:
   m_Component:
   - component: {fileID: 418015010}
   - component: {fileID: 418015011}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Point
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -960,7 +963,6 @@ GameObject:
   - component: {fileID: 461259520}
   - component: {fileID: 461259521}
   - component: {fileID: 461259523}
-  - component: {fileID: 461259525}
   - component: {fileID: 461259524}
   m_Layer: 0
   m_Name: Enemy
@@ -1069,8 +1071,8 @@ Transform:
   m_LocalScale: {x: 3.8757813, y: 2.8090625, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
-  - {fileID: 227943050}
   - {fileID: 33880390}
+  - {fileID: 227943050}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &461259512
@@ -1189,7 +1191,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e19a9561d75498240a80d75aaab2ad1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _positionHero: {fileID: 1379294119}
   _position: {x: 0, y: 0}
 --- !u!114 &461259521
 MonoBehaviour:
@@ -1225,18 +1226,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1b1f250f076f1b145a8426d754d468e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &461259525
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461259507}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: acc7abfc09d1b534086c235060bf421a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &519420028
@@ -1343,7 +1332,7 @@ GameObject:
   - component: {fileID: 560122997}
   - component: {fileID: 560122999}
   - component: {fileID: 560123001}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: wagon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1805,7 +1794,7 @@ GameObject:
   - component: {fileID: 1379294137}
   - component: {fileID: 1379294138}
   - component: {fileID: 1379294139}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HeroKnight_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2123,7 +2112,7 @@ GameObject:
   - component: {fileID: 1400576103}
   - component: {fileID: 1400576104}
   - component: {fileID: 1400576105}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: house-c
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2402,7 +2391,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1716869366}
   - component: {fileID: 1716869367}
-  m_Layer: 7
+  m_Layer: 6
   m_Name: Platforma
   m_TagString: Untagged
   m_Icon: {fileID: 0}
